@@ -3,6 +3,7 @@ import os
 import numpy as np
 import math
 import itertools
+import csv
 
 import torchvision.transforms as transforms
 from torchvision.utils import save_image
@@ -285,6 +286,19 @@ for epoch in range(opt.n_epochs):
         target_performance.append(target_acc)
         if len(target_performance) > 100:
             target_performance.pop(0)
+
+        
+        data = [{'Epoch' : '%d'%epoch, 'Batch': '%d'%i, 'D Loss': '%f'%d_loss.item(), 'G Loss': '%f'%g_loss.item(), 
+        'CLF_acc': '%.3f'%acc,'Target_acc': '%.3f'%target_acc}]
+
+        with open('idata.csv', 'a') as csvFile:
+            fields = ['Epoch', 'Batch','D Loss','G Loss','CLF_acc','Target_acc']
+            writer = csv.DictWriter(csvFile, fieldnames=fields)
+            if epoch == 0 and i == 0:
+                writer.writeheader()
+            writer.writerows(data)
+        # print("writing completed")
+        csvFile.close()
 
         print(
             "[Epoch %d/%d] [Batch %d/%d] [D loss: %f] [G loss: %f] [CLF acc: %3d%% (%3d%%), target_acc: %3d%% (%3d%%)]"
