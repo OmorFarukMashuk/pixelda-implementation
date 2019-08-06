@@ -315,7 +315,6 @@ for epoch in range(opt.n_epochs):
                 # fields = ['Epoch', 'Batch','D Loss','G Loss','CLF_acc','Target_acc']
                 fields = ['Epoch', 'CLF_acc_mean','Target_acc_mean']
                 writer = csv.DictWriter(csvFile, fieldnames=fields)
-                    writer.writeheader()
                 writer.writerows(data)
             # print("writing completed")
             csvFile.close()
