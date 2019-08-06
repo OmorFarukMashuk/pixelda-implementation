@@ -299,7 +299,7 @@ for epoch in range(opt.n_epochs):
             target_performance.pop(0)
 
 
-        if(len(dataloader_A) - 1 == i)
+        if len(dataloader_A) - 1 == i:
             data = [{'Epoch' : '%d'%(epoch+1), 'CLF_acc_mean': '%.3f'%(np.mean(100*task_performance)),
             'Target_acc_mean': '%.3f'%(100 * np.mean(target_performance))}]
 
