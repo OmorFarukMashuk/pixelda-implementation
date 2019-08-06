@@ -299,16 +299,22 @@ for epoch in range(opt.n_epochs):
             target_performance.pop(0)
 
 
+        if epoch == 0 and i == 0:
+            with open('idata.csv', 'a') as csvFile:
+                # fields = ['Epoch', 'Batch','D Loss','G Loss','CLF_acc','Target_acc']
+                fields = ['Epoch', 'CLF_acc_mean','Target_acc_mean']
+                writer = csv.DictWriter(csvFile, fieldnames=fields)
+                writer.writeheader()
+            csvFile.close()
+            
         if len(dataloader_A) - 1 == i:
-            data = [{'Epoch' : '%d'%(epoch+1), 'CLF_acc_mean': '%.3f'%(np.mean(100*task_performance)),
+            data = [{'Epoch' : '%d'%(epoch+1), 'CLF_acc_mean': '%.3f'%(100 * np.mean(task_performance)),
             'Target_acc_mean': '%.3f'%(100 * np.mean(target_performance))}]
 
             with open('idata.csv', 'a') as csvFile:
                 # fields = ['Epoch', 'Batch','D Loss','G Loss','CLF_acc','Target_acc']
                 fields = ['Epoch', 'CLF_acc_mean','Target_acc_mean']
-
                 writer = csv.DictWriter(csvFile, fieldnames=fields)
-                if epoch == 0 and i == 0:
                     writer.writeheader()
                 writer.writerows(data)
             # print("writing completed")
